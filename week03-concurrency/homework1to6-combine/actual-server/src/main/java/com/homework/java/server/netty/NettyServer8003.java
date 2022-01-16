@@ -2,6 +2,7 @@ package com.homework.java.server.netty;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
@@ -11,8 +12,10 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -34,7 +37,10 @@ public class NettyServer8003 {
      */
     public static final AtomicBoolean RUNNING_FLAG = new AtomicBoolean(true);
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(40);
+    private final ExecutorService executorService = new ThreadPoolExecutor(20, 100,
+            60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100),
+            new BasicThreadFactory.Builder().namingPattern("server-pool-%d").build(),
+            new ThreadPoolExecutor.CallerRunsPolicy());
     private ServerSocket serverSocket;
 
     public NettyServer8003() {
