@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WeekEightApplication {
+public class WeekSevenApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WeekEightApplication.class, args);
+		SpringApplication.run(WeekSevenApplication.class, args);
 	}
 
 }
