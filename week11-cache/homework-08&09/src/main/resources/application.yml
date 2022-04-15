@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    username: test
+    password: 123456
+    url: jdbc:mysql://120.26.141.239:3306/javahomework?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+  cache:
+    type: redis
+  redis:
+    host: 120.26.141.239
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: 10ms
+    port: 9829
+
+#    type: ehcache
+#    ehcache:
+#      config: ehcache.xml
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: io.kimmking.cache.entity
+
+logging:
+  level:
+    io:
+      kimmking:
+        cache: info
