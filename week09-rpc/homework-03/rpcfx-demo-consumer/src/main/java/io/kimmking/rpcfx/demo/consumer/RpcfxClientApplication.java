@@ -11,11 +11,13 @@ import io.kimmking.rpcfx.demo.api.User;
 import io.kimmking.rpcfx.demo.api.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import java.util.List;
 import java.util.Random;
 
 @SpringBootApplication
+@EnableAspectJAutoProxy
 public class RpcfxClientApplication {
 
     // 二方库
