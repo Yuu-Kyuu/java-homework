@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,10 +56,20 @@ public final class Rpcfx {
         private final String url;
         private final Filter[] filters;
 
+
+        private NettyHttpClient nettyHttpClient;
+
         public <T> RpcfxInvocationHandler(Class<T> serviceClass, String url, Filter... filters) {
             this.serviceClass = serviceClass;
             this.url = url;
             this.filters = filters;
+            try {
+                URI uri = new URI(url);
+                nettyHttpClient = new NettyHttpClient(uri.getPort(), uri.getHost());
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+
         }
 
         // 可以尝试，自己去写对象序列化，二进制还是文本的，，，rpcfx是xml自定义序列化、反序列化，json: code.google.com/p/rpcfx
@@ -75,7 +87,7 @@ public final class Rpcfx {
             request.setMethod(method.getName());
             request.setParams(params);
 
-            if (null!=filters) {
+            if (null != filters) {
                 for (Filter filter : filters) {
                     if (!filter.filter(request)) {
                         return null;
@@ -96,17 +108,24 @@ public final class Rpcfx {
 
         private RpcfxResponse post(RpcfxRequest req, String url) throws IOException {
             String reqJson = JSON.toJSONString(req);
-            System.out.println("req json: "+reqJson);
+            System.out.println("req json: " + reqJson);
 
             // 1.可以复用client
             // 2.尝试使用httpclient或者netty client
-            OkHttpClient client = new OkHttpClient();
-            final Request request = new Request.Builder()
-                    .url(url)
-                    .post(RequestBody.create(JSONTYPE, reqJson))
-                    .build();
-            String respJson = client.newCall(request).execute().body().string();
-            System.out.println("resp json: "+respJson);
+//            OkHttpClient client = new OkHttpClient();
+//            final Request request = new Request.Builder()
+//                    .url(url)
+//                    .post(RequestBody.create(JSONTYPE, reqJson))
+//                    .build();
+//            String respJson = client.newCall(request).execute().body().string();
+//            System.out.println("resp json: " + respJson);
+
+            String respJson = "";
+            try {
+                respJson = nettyHttpClient.postData(reqJson);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return JSON.parseObject(respJson, RpcfxResponse.class);
         }
     }
