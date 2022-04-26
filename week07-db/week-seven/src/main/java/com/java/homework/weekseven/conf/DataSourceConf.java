@@ -3,6 +3,11 @@ package com.java.homework.weekseven.conf;
 
 import com.java.homework.weekseven.component.ReadWriteDataSource;
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.shardingsphere.driver.api.ShardingSphereDataSourceFactory;
+import org.apache.shardingsphere.infra.config.algorithm.ShardingSphereAlgorithmConfiguration;
+import org.apache.shardingsphere.readwritesplitting.api.ReadwriteSplittingRuleConfiguration;
+import org.apache.shardingsphere.readwritesplitting.api.rule.ReadwriteSplittingDataSourceRuleConfiguration;
+import org.apache.shardingsphere.sharding.api.config.ShardingRuleConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,17 +24,17 @@ import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.metamodel.Metamodel;
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.SQLException;
+import java.util.*;
 
 /**
  * @author qiucihang
  */
-@Configuration
-@EnableJpaRepositories(basePackages = "com.java.homework.weekseven",
-        entityManagerFactoryRef = "localEntityManager",
-        transactionManagerRef = "localTransactionManager")
-@EnableTransactionManagement
+//@Configuration
+//@EnableJpaRepositories(basePackages = "com.java.homework.weekseven",
+//        entityManagerFactoryRef = "localEntityManager",
+//        transactionManagerRef = "localTransactionManager")
+//@EnableTransactionManagement
 public class DataSourceConf {
     @Value("${spring.datasource.write.url}")
     private String dbWriteUrl;
@@ -48,7 +53,7 @@ public class DataSourceConf {
     @Value("${spring.datasource.driver-class-name}")
     private String dbDriver;
 
-
+    //    @Primary
     @Bean("writeDataSource")
     public DataSource commonDataSource() {
         HikariDataSource hikariDataSource = new HikariDataSource();
@@ -76,8 +81,8 @@ public class DataSourceConf {
     }
 
 
+    //    @Primary
     @Bean
-    @Primary
     public ReadWriteDataSource dataSource(DataSource readDataSource, DataSource writeDataSource) {
         Map<Object, Object> targetDataSources = new HashMap<>(2);
         targetDataSources.put(ReadWriteDataSource.READ_DATASOURCE, readDataSource);
@@ -96,9 +101,5 @@ public class DataSourceConf {
         return new JpaTransactionManager(entityManagerFactoryBean.getObject());
     }
 
-//    @Bean("shardingSphereDataSource")
-//    public DataSource shardingSphereDataSource() {
-//        DataSource dataSource = ShardingSphereDataSourceFactory.createDataSource(schemaName, modeConfig, dataSourceMap, ruleConfigs, props);
-//        return dataSource;
-//    }
+
 }
