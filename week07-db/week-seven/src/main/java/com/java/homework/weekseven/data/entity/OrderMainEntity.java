@@ -159,4 +159,16 @@ public class OrderMainEntity {
     public void setDeleteFlag(Integer deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
+
+    public OrderMainEntity() {
+        this.setUserId(1L);
+        this.setUserAddress(1L);
+        this.setStoreId(1L);
+        this.setTransferNo("");
+        this.setOrderStatus(0);
+        this.setDeleteFlag(0);
+        this.setCreatedBy(0L);
+        this.setUpdatedBy(0L);
+        this.setDeleteFlag(0);
+    }
 }
