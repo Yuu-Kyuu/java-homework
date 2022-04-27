@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.homework.homework02.mapper.OOrderMainMapper">
+
+    <resultMap id="BaseResultMap" type="com.java.homework.homework02.domain.OOrderMain">
+            <id property="orderId" column="order_id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="userAddress" column="user_address" jdbcType="BIGINT"/>
+            <result property="storeId" column="store_id" jdbcType="BIGINT"/>
+            <result property="transferNo" column="transfer_no" jdbcType="VARCHAR"/>
+            <result property="orderStatus" column="order_status" jdbcType="TINYINT"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="createdBy" column="created_by" jdbcType="BIGINT"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedBy" column="updated_by" jdbcType="BIGINT"/>
+            <result property="deleteFlag" column="delete_flag" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        order_id,user_id,user_address,
+        store_id,transfer_no,order_status,
+        created_at,created_by,updated_at,
+        updated_by,delete_flag
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from o_order_main
+        where  order_id = #{orderId,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from o_order_main
+        where  order_id = #{orderId,jdbcType=BIGINT} 
+    </delete>
+    <insert id="insert" keyColumn="order_id" keyProperty="orderId" parameterType="com.java.homework.homework02.domain.OOrderMain" useGeneratedKeys="true">
+        insert into o_order_main
+        ( order_id,user_id,user_address
+        ,store_id,transfer_no,order_status
+        ,created_at,created_by,updated_at
+        ,updated_by,delete_flag)
+        values (#{orderId,jdbcType=BIGINT},#{userId,jdbcType=BIGINT},#{userAddress,jdbcType=BIGINT}
+        ,#{storeId,jdbcType=BIGINT},#{transferNo,jdbcType=VARCHAR},#{orderStatus,jdbcType=TINYINT}
+        ,#{createdAt,jdbcType=TIMESTAMP},#{createdBy,jdbcType=BIGINT},#{updatedAt,jdbcType=TIMESTAMP}
+        ,#{updatedBy,jdbcType=BIGINT},#{deleteFlag,jdbcType=TINYINT})
+    </insert>
+    <insert id="insertSelective" keyColumn="order_id" keyProperty="orderId" parameterType="com.java.homework.homework02.domain.OOrderMain" useGeneratedKeys="true">
+        insert into o_order_main
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="orderId != null">order_id,</if>
+                <if test="userId != null">user_id,</if>
+                <if test="userAddress != null">user_address,</if>
+                <if test="storeId != null">store_id,</if>
+                <if test="transferNo != null">transfer_no,</if>
+                <if test="orderStatus != null">order_status,</if>
+                <if test="createdAt != null">created_at,</if>
+                <if test="createdBy != null">created_by,</if>
+                <if test="updatedAt != null">updated_at,</if>
+                <if test="updatedBy != null">updated_by,</if>
+                <if test="deleteFlag != null">delete_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="orderId != null">#{orderId,jdbcType=BIGINT},</if>
+                <if test="userId != null">#{userId,jdbcType=BIGINT},</if>
+                <if test="userAddress != null">#{userAddress,jdbcType=BIGINT},</if>
+                <if test="storeId != null">#{storeId,jdbcType=BIGINT},</if>
+                <if test="transferNo != null">#{transferNo,jdbcType=VARCHAR},</if>
+                <if test="orderStatus != null">#{orderStatus,jdbcType=TINYINT},</if>
+                <if test="createdAt != null">#{createdAt,jdbcType=TIMESTAMP},</if>
+                <if test="createdBy != null">#{createdBy,jdbcType=BIGINT},</if>
+                <if test="updatedAt != null">#{updatedAt,jdbcType=TIMESTAMP},</if>
+                <if test="updatedBy != null">#{updatedBy,jdbcType=BIGINT},</if>
+                <if test="deleteFlag != null">#{deleteFlag,jdbcType=TINYINT},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.java.homework.homework02.domain.OOrderMain">
+        update o_order_main
+        <set>
+                <if test="userId != null">
+                    user_id = #{userId,jdbcType=BIGINT},
+                </if>
+                <if test="userAddress != null">
+                    user_address = #{userAddress,jdbcType=BIGINT},
+                </if>
+                <if test="storeId != null">
+                    store_id = #{storeId,jdbcType=BIGINT},
+                </if>
+                <if test="transferNo != null">
+                    transfer_no = #{transferNo,jdbcType=VARCHAR},
+                </if>
+                <if test="orderStatus != null">
+                    order_status = #{orderStatus,jdbcType=TINYINT},
+                </if>
+                <if test="createdAt != null">
+                    created_at = #{createdAt,jdbcType=TIMESTAMP},
+                </if>
+                <if test="createdBy != null">
+                    created_by = #{createdBy,jdbcType=BIGINT},
+                </if>
+                <if test="updatedAt != null">
+                    updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+                </if>
+                <if test="updatedBy != null">
+                    updated_by = #{updatedBy,jdbcType=BIGINT},
+                </if>
+                <if test="deleteFlag != null">
+                    delete_flag = #{deleteFlag,jdbcType=TINYINT},
+                </if>
+        </set>
+        where   order_id = #{orderId,jdbcType=BIGINT} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.java.homework.homework02.domain.OOrderMain">
+        update o_order_main
+        set 
+            user_id =  #{userId,jdbcType=BIGINT},
+            user_address =  #{userAddress,jdbcType=BIGINT},
+            store_id =  #{storeId,jdbcType=BIGINT},
+            transfer_no =  #{transferNo,jdbcType=VARCHAR},
+            order_status =  #{orderStatus,jdbcType=TINYINT},
+            created_at =  #{createdAt,jdbcType=TIMESTAMP},
+            created_by =  #{createdBy,jdbcType=BIGINT},
+            updated_at =  #{updatedAt,jdbcType=TIMESTAMP},
+            updated_by =  #{updatedBy,jdbcType=BIGINT},
+            delete_flag =  #{deleteFlag,jdbcType=TINYINT}
+        where   order_id = #{orderId,jdbcType=BIGINT} 
+    </update>
+</mapper>
