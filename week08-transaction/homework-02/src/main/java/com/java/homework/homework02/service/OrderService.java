@@ -6,46 +6,44 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
-
 @Service
 public class OrderService {
 
     @Autowired
-    OOrderMainMapper orderMianMapper;
+    OOrderMainMapper orderMainMapper;
 
     public void testInsert() {
-        for (int i = 0; i < 100; i++) {
+        for (long i = 0; i < 1000L; i++) {
             OOrderMain order = new OOrderMain();
             order.setUserId(1L);
             order.setUserAddress(1L);
-            order.setStoreId(1L);
+            order.setStoreId(i);
             order.setTransferNo(RandomStringUtils.randomAlphanumeric(6));
             order.setOrderStatus(0);
             order.setDeleteFlag(0);
             order.setCreatedBy(0L);
             order.setUpdatedBy(0L);
             order.setDeleteFlag(0);
-            orderMianMapper.insertSelective(order);
+            orderMainMapper.insertSelective(order);
         }
     }
 
     public void testDelete(Long orderId) {
-        orderMianMapper.deleteByPrimaryKey(orderId);
+        orderMainMapper.deleteByPrimaryKey(orderId);
     }
 
 
     public void testUpdate(Long orderId) {
-        OOrderMain o = orderMianMapper.selectByPrimaryKey(orderId);
+        OOrderMain o = orderMainMapper.selectByPrimaryKey(orderId);
         String transferNo = RandomStringUtils.randomAlphanumeric(6);
         o.setTransferNo(transferNo);
         System.out.println("update id =====>" + orderId + "=====> transfer no:" + transferNo);
-        orderMianMapper.updateByPrimaryKey(o);
+        orderMainMapper.updateByPrimaryKey(o);
     }
 
 
     public OOrderMain testSelect(Long orderId) {
-        return orderMianMapper.selectByPrimaryKey(orderId);
+        return orderMainMapper.selectByPrimaryKey(orderId);
     }
 
 

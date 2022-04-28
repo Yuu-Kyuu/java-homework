@@ -1,6 +1,7 @@
 package com.java.homework.homework02.controller;
 
 import com.java.homework.homework02.service.OrderService;
+import com.java.homework.homework02.service.OrderTranstractionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,9 @@ public class TestController {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    OrderTranstractionService orderTranstractionService;
 
     @PutMapping("/create")
     public String insert() {
@@ -32,6 +36,13 @@ public class TestController {
     @DeleteMapping("/delete")
     public String delete(@RequestParam("orderId") Long orderId) {
         orderService.testDelete(orderId);
+        return "success";
+    }
+
+
+    @GetMapping("/tx")
+    public String tx() {
+        orderTranstractionService.xaTest();
         return "success";
     }
 }
