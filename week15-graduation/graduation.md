@@ -131,7 +131,7 @@ XYZ三向拆分：
 
 >SpringCloud
 ![全家桶.png](https://upload-images.jianshu.io/upload_images/12938943-7ba90aa9cc8776e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-引出微服务各主要组件：
+引出微服务各主要组件：  
 注册中心  
 配置中心  
 服务网关  
@@ -146,7 +146,7 @@ XYZ三向拆分：
 缓存问题：穿透->击穿->雪崩  
 
 >Redis - 高性能，单线程，集群（哨兵，Cluster）  
->常见实用场景  
+>__常见实用场景：__  
 业务数据缓存  
 业务数据处理  
 全局一致计数  
